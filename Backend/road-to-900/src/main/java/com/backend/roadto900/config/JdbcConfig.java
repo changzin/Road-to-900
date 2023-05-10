@@ -23,4 +23,8 @@ public class JdbcConfig {
     public JdbcTemplate jdbcTemplate(){
         return new JdbcTemplate(dataSource());
     }
+
+    @Bean NowUser nowUser(){
+        return new NowUser();
+    }
 }
