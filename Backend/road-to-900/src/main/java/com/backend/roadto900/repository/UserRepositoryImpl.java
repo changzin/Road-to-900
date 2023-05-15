@@ -33,14 +33,6 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public UserDto save(UserDto userDto) {
-        System.out.println("INSERT INTO user(uid, user_name, password, role, level, daily_note_num) VALUES('"+
-                userDto.getUid()+
-                "','" + userDto.getUserName()+
-                "','" + userDto.getPassword()+
-                "'," + userDto.getRole()+
-                "," + userDto.getLevel()+
-                "," + userDto.getDailyNoteNum()+
-                ")");
         jdbcTemplate.execute("INSERT INTO user(uid, user_name, password, role, level, daily_note_num) VALUES('"+
                 userDto.getUid()+
                 "','" + userDto.getUserName()+
