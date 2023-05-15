@@ -11,7 +11,7 @@ public interface WordRepository {
     WordDto insertWord(WordInsertReq wordInsertReq);
     List<WordDto> findAll();    // 모든 단어 불러오기
     List<WordDto> deleteWord(WordDeleteReq deleteWordReq);
-
+    WordDto searchWord(String spell);
 
 }
 

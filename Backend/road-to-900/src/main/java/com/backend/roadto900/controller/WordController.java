@@ -7,10 +7,7 @@ import com.backend.roadto900.service.WordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,5 +38,10 @@ public class WordController {
         return ResponseEntity.status(201).body(wordDto);
     }
 
+    @GetMapping ("/word")
+    public ResponseEntity searchWord(@RequestParam String spell){
+        WordDto wordDto = wordService.searchWord(spell);
+        return ResponseEntity.status(201).body(wordDto);
+    }
 
 }

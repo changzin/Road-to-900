@@ -54,4 +54,9 @@ public class WordRepositoryImpl implements WordRepository{
         return findAll();
     }
 
+    @Override
+    public WordDto searchWord(String spell) {
+        WordDto wordDto = jdbcTemplate.queryForObject("SELECT * FROM word WHERE spell = ?", new Object[]{spell}, wordRowMapper);
+        return wordDto;
+    }
 }

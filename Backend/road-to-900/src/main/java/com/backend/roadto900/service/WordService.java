@@ -25,6 +25,11 @@ public class WordService {
     }
 
     public List<WordDto> deleteWord(WordDeleteReq deleteWordReq){
+
         return wordRepository.deleteWord(deleteWordReq);
+    }
+
+    public WordDto searchWord(String spell) {
+        return wordRepository.searchWord(spell);
     }
 }
