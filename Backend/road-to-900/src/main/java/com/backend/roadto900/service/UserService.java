@@ -47,6 +47,10 @@ public class UserService {
         return nowUser;
     }
 
+    public void setDailyNoteNum(int dailyNoteNum){
+        nowUser.setDailyNoteNum(dailyNoteNum);
+    }
+
     private void duplicateUidCheck(String uid){
         int count = userRepository.countByUid(uid);
         if (count != 0){
@@ -66,4 +70,6 @@ public class UserService {
             throw new IllegalStateException("일치하는 ID가 존재하지 않습니다.");
         }
     }
+
+
 }

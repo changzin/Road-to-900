@@ -1,6 +1,7 @@
 package com.backend.roadto900.controller;
 
 import com.backend.roadto900.dto.NoteDto;
+import com.backend.roadto900.dto.NoteWordDto;
 import com.backend.roadto900.service.NoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +34,9 @@ public class NoteController {
     }
 
     @GetMapping("note/{noteId}")
-    public ResponseEntity noteWordList(){
-        return null;
+    public ResponseEntity noteWordList(@PathVariable int noteId){
+        NoteWordDto noteWordDto = noteService.findNoteWord(noteId);
+        return ResponseEntity.status(200).body(noteWordDto);
     }
 
     @GetMapping("note/{noteId}/test")

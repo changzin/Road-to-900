@@ -55,4 +55,10 @@ public class UserController {
 
         return ResponseEntity.status(201).body(nowUser);
     }
+
+    @PostMapping("/dailyNoteSetting")
+    public ResponseEntity setDailyNoteNum(@RequestParam int dailyNoteNum){
+        userService.setDailyNoteNum(dailyNoteNum);
+        return ResponseEntity.status(200).body(dailyNoteNum);
+    }
 }

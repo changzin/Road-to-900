@@ -45,4 +45,8 @@ public class NowUser {
         this.level = userDto.getLevel();
         this.dailyNoteNum = userDto.getDailyNoteNum();
     }
+
+    public void setDailyNoteNum(int dailyNoteNum){
+        this.dailyNoteNum = dailyNoteNum;
+    }
 }
