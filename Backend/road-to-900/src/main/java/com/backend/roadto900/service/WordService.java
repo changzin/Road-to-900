@@ -2,6 +2,7 @@ package com.backend.roadto900.service;
 
 import com.backend.roadto900.dto.WordDto;
 import com.backend.roadto900.repository.WordRepository;
+import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
 import com.backend.roadto900.req.WordInsertReq;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +32,9 @@ public class WordService {
 
     public WordDto searchWord(String spell) {
         return wordRepository.searchWord(spell);
+    }
+
+    public WordDto askWord(WordAskReq wordAskReq) {
+        return wordRepository.askWord(wordAskReq);
     }
 }

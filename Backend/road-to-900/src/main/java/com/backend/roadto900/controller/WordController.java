@@ -1,6 +1,7 @@
 package com.backend.roadto900.controller;
 
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
 import com.backend.roadto900.req.WordInsertReq;
 import com.backend.roadto900.service.WordService;
@@ -41,6 +42,12 @@ public class WordController {
     @GetMapping ("/word")
     public ResponseEntity searchWord(@RequestParam String spell){
         WordDto wordDto = wordService.searchWord(spell);
+        return ResponseEntity.status(201).body(wordDto);
+    }
+
+    @PostMapping("/wordAdd")
+    public ResponseEntity askWord(@RequestBody WordAskReq wordAskReq){
+        WordDto wordDto = wordService.askWord(wordAskReq);
         return ResponseEntity.status(201).body(wordDto);
     }
 

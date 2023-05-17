@@ -1,6 +1,7 @@
 package com.backend.roadto900.repository;
 
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
 import com.backend.roadto900.req.WordInsertReq;
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,21 @@ public class WordRepositoryImpl implements WordRepository{
 
     @Override
     public WordDto insertWord(WordInsertReq wordInsertReq) {
+        String sql = "SELECT COUNT(*) FROM word WHERE spell = ?";
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, wordInsertReq.getSpell());
 
-    System.out.println("INSERT INTO word(word_id, spell, mean) VALUES('" +
-            wordInsertReq.getSpell() +
-            "','" + wordInsertReq.getMean() +
-            "')");
-    jdbcTemplate.update("INSERT INTO word(spell, mean) VALUES(?, ?)", wordInsertReq.getSpell(), wordInsertReq.getMean());
-    WordDto newWordDto = jdbcTemplate.queryForObject("SELECT * FROM word WHERE spell = ? AND mean = ?", new Object[]{wordInsertReq.getSpell(), wordInsertReq.getMean()}, wordRowMapper);
-    return newWordDto;
-}
+        if (count == 0) {
+            sql = "INSERT INTO word (spell, mean) VALUES (?, ?)";
+            jdbcTemplate.update(sql, wordInsertReq.getSpell(), wordInsertReq.getMean());
+            WordDto newWordDto = jdbcTemplate.queryForObject("SELECT * FROM word WHERE spell = ? AND mean = ?", new Object[]{wordInsertReq.getSpell(), wordInsertReq.getMean()}, wordRowMapper);
+            return newWordDto;
+        } else {
+            WordDto duplicateWordDto = new WordDto(-1, "Duplicate","This word is a duplicate.");
+            return duplicateWordDto;
+        }
+    }
+
+
     @Override
     public List<WordDto> findAll() {
         List<WordDto> wordDtoList = jdbcTemplate.query("SELECT word_id,spell, mean FROM word", wordRowMapper);
@@ -58,5 +65,11 @@ public class WordRepositoryImpl implements WordRepository{
     public WordDto searchWord(String spell) {
         WordDto wordDto = jdbcTemplate.queryForObject("SELECT * FROM word WHERE spell = ?", new Object[]{spell}, wordRowMapper);
         return wordDto;
+    }
+
+    @Override       // word_add DB에 INSERT시 word_add_id를 따로 넣어줘야한다. 일단은 임의의 값을 지정했다
+    public WordDto askWord(WordAskReq wordAskReq) {
+        jdbcTemplate.update("INSERT INTO word_add (word_add_id, word_add_spell) VALUES (?, ?)", 102, wordAskReq.getSpell());
+        return null;
     }
 }
