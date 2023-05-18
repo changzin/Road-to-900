@@ -49,6 +49,7 @@ public class UserService {
 
     public void setDailyNoteNum(int dailyNoteNum){
         nowUser.setDailyNoteNum(dailyNoteNum);
+        userRepository.setDailyNoteNum(nowUser.getUserId(), dailyNoteNum);
     }
 
     private void duplicateUidCheck(String uid){

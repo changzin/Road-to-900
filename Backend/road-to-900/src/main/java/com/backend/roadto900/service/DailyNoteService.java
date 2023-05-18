@@ -16,7 +16,7 @@ public class DailyNoteService {
     private final NowUser nowUser;
     private final DailyNote dailyNote;
 
-    private List<WordDto> getDailyNote(){
+    public List<WordDto> getDailyNote(){
         dailyNote.updateDailyNote(wordRepository.findAll());
         return dailyNote.getDailyNote(nowUser.getDailyNoteNum());
     }

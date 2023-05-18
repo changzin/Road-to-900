@@ -59,6 +59,6 @@ public class UserController {
     @PostMapping("/dailyNoteSetting")
     public ResponseEntity setDailyNoteNum(@RequestParam int dailyNoteNum){
         userService.setDailyNoteNum(dailyNoteNum);
-        return ResponseEntity.status(200).body(dailyNoteNum);
+        return ResponseEntity.status(200).body("변경 완료");
     }
 }

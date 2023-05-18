@@ -14,7 +14,6 @@ public interface WordRepository {
     List<WordDto> deleteWord(WordDeleteReq deleteWordReq);
     WordDto searchWord(String spell);
     WordDto askWord(WordAskReq wordAskReq);
-
 }
 
 

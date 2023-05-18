@@ -10,4 +10,6 @@ public interface UserRepository {
     UserDto login(UserLoginReq userLoginReq);
 
     int countByUid(String uid);
+
+    void setDailyNoteNum(int userId, int dailyNoteNum);
 }

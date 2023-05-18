@@ -63,4 +63,14 @@ public class UserRepositoryImpl implements UserRepository{
                 , Integer.class);
         return count;
     }
+
+    @Override
+    public void setDailyNoteNum(int userId, int dailyNoteNum) {
+        System.out.println("UPDATE user SET daily_note_num="+
+                dailyNoteNum+
+                " where user_id=" + userId);
+        jdbcTemplate.execute("UPDATE user SET daily_note_num="+
+                dailyNoteNum+
+                " where user_id=" + userId);
+    }
 }

@@ -15,7 +15,7 @@ public class QuestionDto {
     private int answer;
     private String[] choice = new String[4];
 
-    QuestionDto(WordDto wordDto, List<WordDto> wordDtoList){
+    public QuestionDto(WordDto wordDto, List<WordDto> wordDtoList){
         this.wordDto = new WordDto(wordDto.getWordId(), wordDto.getSpell(), wordDto.getMean());
         makeAnswer();
         makeChoice(wordDtoList);
@@ -23,13 +23,22 @@ public class QuestionDto {
     private void makeAnswer(){
         Random rand = new Random();
         this.answer = rand.nextInt(4);
+        choice[answer] = wordDto.getMean();
     }
 
     private void makeChoice(List<WordDto> wordDtoList){
         Collections.shuffle(wordDtoList);
-        for (int i = 0; i < 4; i++){
-            if (i != answer && !wordDto.getMean().equals(wordDtoList.get(i).getMean())){
-                choice[i] = wordDtoList.get(i).getMean();
+        int cnt = 0;
+        for (int i = 0; i < wordDtoList.size(); i++){
+            if (cnt == answer){
+                cnt++;
+            }
+            else if (!wordDto.getMean().equals(wordDtoList.get(i).getMean())){
+                choice[cnt] = wordDtoList.get(i).getMean();
+                cnt++;
+            }
+            if (cnt == 4){
+                break;
             }
         }
     }

@@ -7,28 +7,35 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 @Component
 public class DailyNote {
 
-    private List<WordDto> dailyNote;
+    private List<WordDto> dailyNote = new ArrayList<>();
     private LocalDate updateDate;
 
     // 비어있거나, 날짜가 다르다면 업데이트하는 시나리오
     public void updateDailyNote(List<WordDto> wordDtoList){
+        int cnt = 0;
         if (updateDate == null || !updateDate.equals(LocalDate.now())){
+            updateDate = LocalDate.now();
             dailyNote.clear();
             Collections.shuffle(wordDtoList);
-            for(int i = 0; i < 30; i++){
+            for(int i = 0; i < wordDtoList.size(); i++){
                 dailyNote.add(wordDtoList.get(i));
+                cnt++;
+                if (cnt == 30){
+                    break;
+                }
             }
         }
     }
 
     public List<WordDto> getDailyNote(int dailyNoteNum){
-        if (dailyNoteNum == 10 || dailyNoteNum == 20 || dailyNoteNum == 30)
+        if (dailyNoteNum == 10 || dailyNoteNum == 20 || dailyNoteNum == 30 || dailyNoteNum <= 5)
             return dailyNote.subList(0, dailyNoteNum);
         return null;
     }

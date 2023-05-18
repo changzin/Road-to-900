@@ -2,7 +2,9 @@ package com.backend.roadto900.controller;
 
 import com.backend.roadto900.dto.NoteDto;
 import com.backend.roadto900.dto.NoteWordDto;
+import com.backend.roadto900.dto.QuestionDto;
 import com.backend.roadto900.service.NoteService;
+import com.backend.roadto900.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ import java.util.List;
 public class NoteController {
 
     private final NoteService noteService;
+    private final TestService testService;
 
     @GetMapping("note/list")
     public ResponseEntity noteList(){
@@ -40,8 +43,9 @@ public class NoteController {
     }
 
     @GetMapping("note/{noteId}/test")
-    public ResponseEntity noteTest(){
-        return null;
+    public ResponseEntity noteTest(@PathVariable int noteId){
+        List<QuestionDto> questionDtoList = testService.makeNoteTest(noteId);
+        return ResponseEntity.status(200).body(questionDtoList);
     }
 
     @GetMapping("note/{noteId}/create")
