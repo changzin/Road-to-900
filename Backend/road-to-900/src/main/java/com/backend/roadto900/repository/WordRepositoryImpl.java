@@ -43,7 +43,7 @@ public class WordRepositoryImpl implements WordRepository{
             WordDto newWordDto = jdbcTemplate.queryForObject("SELECT * FROM word WHERE spell = ? AND mean = ?", new Object[]{wordInsertReq.getSpell(), wordInsertReq.getMean()}, wordRowMapper);
             return newWordDto;
         } else {
-            WordDto duplicateWordDto = new WordDto(-1, "Duplicate","This word is a duplicate.");
+            WordDto duplicateWordDto = new WordDto(-1, "Duplicate","이미 존재하는 단어 입니다.");
             return duplicateWordDto;
         }
     }
@@ -67,9 +67,9 @@ public class WordRepositoryImpl implements WordRepository{
         return wordDto;
     }
 
-    @Override       // word_add DB에 INSERT시 word_add_id를 따로 넣어줘야한다. 일단은 임의의 값을 지정했다
+    @Override
     public WordDto askWord(WordAskReq wordAskReq) {
-        jdbcTemplate.update("INSERT INTO word_add (word_add_id, word_add_spell) VALUES (?, ?)", 102, wordAskReq.getSpell());
+        jdbcTemplate.update("INSERT INTO word_add (word_add_spell) VALUES (?)",wordAskReq.getSpell());
         return null;
     }
 }
