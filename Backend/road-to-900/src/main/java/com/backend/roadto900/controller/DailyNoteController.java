@@ -19,12 +19,13 @@ import java.util.List;
 public class DailyNoteController {
     private final DailyNoteService dailyNoteService;
     private final TestService testService;
-
+    
     @GetMapping("/dailyNote")
     public ResponseEntity getDailyNote(){
         List<WordDto> wordDtoList = dailyNoteService.getDailyNote();
         return ResponseEntity.status(200).body(wordDtoList);
     }
+
     @GetMapping("/dailyNote/test")
     public ResponseEntity getDailyNoteTest(){
         List<QuestionDto> questionDtoList = testService.dailyNoteTest();

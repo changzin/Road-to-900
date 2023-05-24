@@ -20,9 +20,9 @@ public class NowUser {
         uid = "register";
         userName ="register";
         password = "register";
-        role = -2;
-        level = -2;
-        dailyNoteNum = -2;
+        role = -1;
+        level = -1;
+        dailyNoteNum = -1;
     }
 
     public void Logout(){

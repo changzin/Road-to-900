@@ -3,6 +3,7 @@ package com.backend.roadto900.controller;
 import com.backend.roadto900.dto.NoteDto;
 import com.backend.roadto900.dto.NoteWordDto;
 import com.backend.roadto900.dto.QuestionDto;
+import com.backend.roadto900.dto.WordDto;
 import com.backend.roadto900.service.NoteService;
 import com.backend.roadto900.service.TestService;
 import lombok.RequiredArgsConstructor;
@@ -48,8 +49,8 @@ public class NoteController {
         return ResponseEntity.status(200).body(questionDtoList);
     }
 
-    @GetMapping("note/{noteId}/create")
-    public ResponseEntity noteWordCreate(){
+    @PostMapping("note/{noteId}/create")
+    public ResponseEntity noteWordCreate(@PathVariable int noteId, @RequestBody List<WordDto> wordDtoList){
         return null;
     }
 

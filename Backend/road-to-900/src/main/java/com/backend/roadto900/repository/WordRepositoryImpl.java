@@ -1,6 +1,7 @@
 package com.backend.roadto900.repository;
 
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.exception.GeneralException;
 import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
 import com.backend.roadto900.req.WordInsertReq;
@@ -36,7 +37,6 @@ public class WordRepositoryImpl implements WordRepository{
     public WordDto insertWord(WordInsertReq wordInsertReq) {
         String sql = "SELECT COUNT(*) FROM word WHERE spell = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, wordInsertReq.getSpell());
-
         if (count == 0) {
             sql = "INSERT INTO word (spell, mean) VALUES (?, ?)";
             jdbcTemplate.update(sql, wordInsertReq.getSpell(), wordInsertReq.getMean());

@@ -17,7 +17,5 @@ public class NoteService {
     }
     public List<NoteDto> join(String noteName){return noteRepositoryImpl.save(noteName);}
     public List<NoteDto> delete(int noteId){return noteRepositoryImpl.delete(noteId);}
-    public NoteWordDto findNoteWord(int noteId){
-        return noteRepositoryImpl.findNoteWord(noteId);
-    }
+    public NoteWordDto findNoteWord(int noteId){return noteRepositoryImpl.findNoteWord(noteId);}
 }

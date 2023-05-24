@@ -18,4 +18,6 @@ public interface NoteRepository {
     int countByNoteName(String noteName);
 
     NoteDto findByNoteId(int noteId);
+
+
 }

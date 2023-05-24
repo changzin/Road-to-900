@@ -24,10 +24,10 @@ public class DailyNote {
             updateDate = LocalDate.now();
             dailyNote.clear();
             Collections.shuffle(wordDtoList);
-            for(int i = 0; i < wordDtoList.size(); i++){
-                dailyNote.add(wordDtoList.get(i));
+            for (WordDto wordDto : wordDtoList) {
+                dailyNote.add(wordDto);
                 cnt++;
-                if (cnt == 30){
+                if (cnt == 30) {
                     break;
                 }
             }

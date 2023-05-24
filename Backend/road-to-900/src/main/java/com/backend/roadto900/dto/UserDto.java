@@ -18,11 +18,11 @@ public class UserDto {
         this.uid = uid;
         this.userName = userName;
         this.password = password;
-        // 0은 유저, 1은 관리자
+        // -1 비회원, 0은 유저, 1은 관리자
         this.role = role;
-        // 0은 아직 테스트를 보지 않음, 티어는 1 - 2 - 3 순으로 올라감
+        // -1은 아직 테스트를 보지 않음, 티어는 0 - 1 - 2 순으로 올라감
         this.level = level;
-        // 디폴트 값 지정 (일단 20개로 지정)
+        // 10, 20, 30 중 선택?
         this.dailyNoteNum = dailyNoteNum;
     }
 }

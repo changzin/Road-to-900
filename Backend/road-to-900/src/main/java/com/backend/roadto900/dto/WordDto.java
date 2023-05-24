@@ -11,7 +11,6 @@ public class WordDto {
     private String spell;
     private String mean;
 
-
     public String toString() {
         return "WordDto [getSpell=" + getSpell() + ", mean=" + getMean() + "]";
     }
