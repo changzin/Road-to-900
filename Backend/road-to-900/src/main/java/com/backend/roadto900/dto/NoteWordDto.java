@@ -10,6 +10,5 @@ import java.util.List;
 public class NoteWordDto {
     private int noteId;
     private String noteName;
-
-    List<WordDto> wordDtoList;
+    private List<WordDto> wordDtoList;
 }

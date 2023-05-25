@@ -18,6 +18,10 @@ public class DailyNoteService {
     private final DailyNote dailyNote;
 
     public List<WordDto> getDailyNote(){
+        if (nowUser.getRole() != 0){
+            throw new GeneralException("오늘의 단어장 사용 권한이 없습니다", 403);
+        }
+
         dailyNote.updateDailyNote(wordRepository.findAll());
         List<WordDto> DailyNote = dailyNote.getDailyNote(nowUser.getDailyNoteNum());
         if (DailyNote == null || DailyNote.size() != nowUser.getDailyNoteNum()){

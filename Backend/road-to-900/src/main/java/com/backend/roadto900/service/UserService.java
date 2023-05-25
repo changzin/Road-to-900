@@ -16,6 +16,10 @@ public class UserService {
     private final NowUser nowUser;
 
     public UserDto join(UserCreateReq userCreateReq) {
+        // 회원가입 권한 예외처리
+        if (nowUser.getRole() != -1){
+            throw new GeneralException("회원가입 권한이 없습니다.", 403);
+        }
         // 아이디 중복체크 예외처리
         duplicateUidCheck(userCreateReq.getUid());
         // 비밀번호 두번 쓴 거 잘 맞췄는지 예외처리
@@ -52,20 +56,20 @@ public class UserService {
         return nowUser;
     }
 
-    public NowUser logout(){
+    public String logout(){
         // 로그아웃 권한 예외처리
         if (nowUser.getRole() == -1){
             throw new GeneralException("로그아웃 권한이 없습니다.", 403);
         }
         nowUser.Logout();
-        return nowUser;
+        return "로그아웃 완료 되었습니다.";
     }
 
     public NowUser findNowUser(){
         return nowUser;
     }
 
-    public void setDailyNoteNum(int dailyNoteNum){
+    public String setDailyNoteNum(int dailyNoteNum){
         // 로그인 권한 예외처리
         if (nowUser.getRole() != 0){
             throw new GeneralException("오늘의 단어장 권한이 없습니다", 403);
@@ -73,6 +77,7 @@ public class UserService {
 
         nowUser.setDailyNoteNum(dailyNoteNum);
         userRepository.setDailyNoteNum(nowUser.getUserId(), dailyNoteNum);
+        return "변경이 완료 되었습니다.";
     }
 
     private void duplicateUidCheck(String uid){

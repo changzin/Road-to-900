@@ -18,47 +18,31 @@ public class UserController {
     @PostMapping("/login/signUp")
     public ResponseEntity signUp(@RequestBody UserCreateReq userCreateReq) {
         UserDto userDto;
-
-        try {
-            userDto = userService.join(userCreateReq);
-        }
-        catch (IllegalStateException e)
-        {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
+        userDto = userService.join(userCreateReq);
         return ResponseEntity.status(201).body(userDto);
     }
 
     @GetMapping("/login")
     public ResponseEntity login(@RequestBody UserLoginReq userLoginReq){
-        NowUser nowUser;
-        try {
-            nowUser = userService.login(userLoginReq);
-        }
-        catch (IllegalStateException e)
-        {
-            return ResponseEntity.status(400).body(e.getMessage());
-        }
-        return ResponseEntity.status(201).body(nowUser);
+        NowUser nowUser = userService.login(userLoginReq);
+        return ResponseEntity.ok().body(nowUser);
     }
 
     @GetMapping("/logout")
     public ResponseEntity logout(){
-        NowUser nowUser = userService.logout();
-
-        return ResponseEntity.status(201).body(nowUser);
+        String result = userService.logout();
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("/myPage")
     public ResponseEntity findNowUser(){
         NowUser nowUser = userService.findNowUser();
-
-        return ResponseEntity.status(201).body(nowUser);
+        return ResponseEntity.ok().body(nowUser);
     }
 
     @PostMapping("/dailyNoteSetting")
     public ResponseEntity setDailyNoteNum(@RequestParam int dailyNoteNum){
-        userService.setDailyNoteNum(dailyNoteNum);
-        return ResponseEntity.status(200).body("변경 완료");
+        String result = userService.setDailyNoteNum(dailyNoteNum);
+        return ResponseEntity.ok().body(result);
     }
 }

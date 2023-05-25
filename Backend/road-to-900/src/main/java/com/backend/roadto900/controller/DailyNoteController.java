@@ -23,12 +23,12 @@ public class DailyNoteController {
     @GetMapping("/dailyNote")
     public ResponseEntity getDailyNote(){
         List<WordDto> wordDtoList = dailyNoteService.getDailyNote();
-        return ResponseEntity.status(200).body(wordDtoList);
+        return ResponseEntity.ok().body(wordDtoList);
     }
 
     @GetMapping("/dailyNote/test")
     public ResponseEntity getDailyNoteTest(){
         List<QuestionDto> questionDtoList = testService.dailyNoteTest();
-        return ResponseEntity.status(200).body(questionDtoList);
+        return ResponseEntity.ok().body(questionDtoList);
     }
 }

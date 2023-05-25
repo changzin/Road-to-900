@@ -34,7 +34,10 @@ public class DailyNote {
         }
     }
 
-    public List<WordDto> getDailyNote(int dailyNoteNum){
+    public List<WordDto> getDailyNote(int dailyNoteNum) {
+        if (dailyNote.isEmpty() || dailyNote.size() < dailyNoteNum) {
+            return null;
+        }
         if (dailyNoteNum == 10 || dailyNoteNum == 20 || dailyNoteNum == 30 || dailyNoteNum <= 5)
             return dailyNote.subList(0, dailyNoteNum);
         return null;

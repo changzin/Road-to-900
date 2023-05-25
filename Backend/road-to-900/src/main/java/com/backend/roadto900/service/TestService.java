@@ -6,6 +6,7 @@ import com.backend.roadto900.dto.NoteDto;
 import com.backend.roadto900.dto.NoteWordDto;
 import com.backend.roadto900.dto.QuestionDto;
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.exception.GeneralException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,14 @@ import java.util.List;
 public class TestService {
     private final NoteService noteService;
     private final WordService wordService;
+    private final DailyNoteService dailyNoteService;
     private final NowUser nowUser;
     private final DailyNote dailyNote;
 
     public List<QuestionDto> makeNoteTest(int noteId){
+        if (nowUser.getRole() != 0){
+            throw new GeneralException("단어장 테스트 권한이 없습니다", 403);
+        }
         // 시험 볼 노트의 단어들 가져옴
         NoteWordDto noteWordDto = noteService.findNoteWord(noteId);
 
@@ -29,8 +34,7 @@ public class TestService {
     }
 
     public List<QuestionDto> dailyNoteTest(){
-        dailyNote.updateDailyNote(wordService.findAll());
-        List<WordDto> wordDtoList = dailyNote.getDailyNote(nowUser.getDailyNoteNum());
+        List<WordDto> wordDtoList = dailyNoteService.getDailyNote();
         return makeTest(wordDtoList);
     }
 

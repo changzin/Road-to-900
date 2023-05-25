@@ -22,40 +22,42 @@ public class NoteController {
     @GetMapping("note/list")
     public ResponseEntity noteList(){
         List<NoteDto> noteDtoList = noteService.findAll();
-        return ResponseEntity.status(200).body(noteDtoList);
+        return ResponseEntity.ok().body(noteDtoList);
     }
 
     @PostMapping("note/delete")
     public ResponseEntity delete(@RequestParam int noteId){
         List<NoteDto> noteDtoList = noteService.delete(noteId);
-        return ResponseEntity.status(200).body(noteDtoList);
+        return ResponseEntity.ok().body(noteDtoList);
     }
 
     @PostMapping("note/create")
     public ResponseEntity create(@RequestParam String noteName){
-        List<NoteDto> noteDtoList = noteService.join(noteName);;
-        return ResponseEntity.status(200).body(noteDtoList);
+        List<NoteDto> noteDtoList = noteService.join(noteName);
+        return ResponseEntity.ok().body(noteDtoList);
     }
 
     @GetMapping("note/{noteId}")
     public ResponseEntity noteWordList(@PathVariable int noteId){
         NoteWordDto noteWordDto = noteService.findNoteWord(noteId);
-        return ResponseEntity.status(200).body(noteWordDto);
+        return ResponseEntity.ok().body(noteWordDto);
     }
 
     @GetMapping("note/{noteId}/test")
     public ResponseEntity noteTest(@PathVariable int noteId){
         List<QuestionDto> questionDtoList = testService.makeNoteTest(noteId);
-        return ResponseEntity.status(200).body(questionDtoList);
+        return ResponseEntity.ok().body(questionDtoList);
     }
 
     @PostMapping("note/{noteId}/create")
-    public ResponseEntity noteWordCreate(@PathVariable int noteId, @RequestBody List<WordDto> wordDtoList){
-        return null;
+    public ResponseEntity noteWordCreate(@PathVariable int noteId, @RequestBody List<Integer> wordIdList){
+        String result = noteService.createNoteWord(noteId, wordIdList);
+        return ResponseEntity.status(201).body(result);
     }
 
-    @GetMapping("note/{noteId}/delete")
-    public ResponseEntity noteWordDelete(){
-        return null;
+    @PostMapping("note/{noteId}/delete")
+    public ResponseEntity noteWordDelete(@PathVariable int noteId, @RequestBody List<Integer> wordIdList){
+        String result = noteService.deleteNoteWord(noteId, wordIdList);
+        return ResponseEntity.ok().body(result);
     }
 }
