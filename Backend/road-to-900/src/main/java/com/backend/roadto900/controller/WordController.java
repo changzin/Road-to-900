@@ -1,6 +1,8 @@
 package com.backend.roadto900.controller;
 
+import com.backend.roadto900.dto.WordAddDto;
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.req.WordAddDeleteReq;
 import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
 import com.backend.roadto900.req.WordInsertReq;
@@ -41,7 +43,7 @@ public class WordController {
 
     @GetMapping ("/word")
     public ResponseEntity searchWord(@RequestParam String spell){
-        WordDto wordDto = wordService.searchWord(spell);
+        List<WordDto> wordDto = wordService.searchWord(spell);
         return ResponseEntity.status(201).body(wordDto);
     }
 
@@ -49,6 +51,22 @@ public class WordController {
     public ResponseEntity askWord(@RequestBody WordAskReq wordAskReq){
         WordDto wordDto = wordService.askWord(wordAskReq);
         return ResponseEntity.status(201).body(wordDto);
+    }
+
+    @GetMapping("/wordAdd/list")
+    public ResponseEntity findAskWord() {
+        List<WordAddDto> wordAddDto = wordService.findAskWord();
+        return ResponseEntity.status(201).body(wordAddDto);
+    }
+
+    @PostMapping("/wordAdd/delete")
+    public ResponseEntity deleteAskWord(@RequestBody WordAddDeleteReq wordAddDeleteReq) {
+        List<WordAddDto> wordAddDto = wordService.deleteAskWord(wordAddDeleteReq);
+//        for (WordAddDto wordId: wordAddDto){
+//            System.out.println("wordId = " + wordId.getWordId());
+//        }
+        return ResponseEntity.status(201).body(wordAddDto);
+
     }
 
 }
