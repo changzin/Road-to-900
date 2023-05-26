@@ -21,7 +21,11 @@ public class NoteService {
         if (nowUser.getRole() != 0){
             throw new GeneralException("개인 단어장 사용 권한이 없습니다", 403);
         }
-        return noteRepositoryImpl.findAll();
+        List<NoteDto> noteDtoList = noteRepositoryImpl.findAll();
+        if (noteDtoList.isEmpty()){
+            throw new GeneralException("사용자의 노트가 없습니다.", 404);
+        }
+        return noteDtoList;
     }
 
     public List<NoteDto> join(String noteName){
@@ -66,7 +70,11 @@ public class NoteService {
                 throw new GeneralException("개인 단어장 조회 권한이 없습니다.", 403);
             }
         }
-        return noteRepositoryImpl.findNoteWord(noteId);
+        NoteWordDto noteWordDto = noteRepositoryImpl.findNoteWord(noteId);
+        if (noteWordDto.getWordDtoList().isEmpty()){
+            throw new GeneralException("해당 단어장이 비어 있습니다", 404);
+        }
+        return noteWordDto;
     }
 
     public String createNoteWord(int noteId, List<Integer> wordIdList) {
