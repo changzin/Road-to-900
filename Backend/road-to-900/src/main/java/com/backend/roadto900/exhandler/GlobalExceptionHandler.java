@@ -2,6 +2,7 @@ package com.backend.roadto900.exhandler;
 
 import com.backend.roadto900.exception.GeneralException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -16,5 +17,9 @@ public class GlobalExceptionHandler {
         Map<String,String> result = new HashMap<>();
         result.put("ErrorMessage",e.getMessage());
         return ResponseEntity.status(e.getCode()).body(result);
+    }
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    protected ResponseEntity<String> handleHttpMessageNotReadable(HttpMessageNotReadableException ex) {
+        return ResponseEntity.badRequest().body("ErrorMessage"+":"+ " 삭제할 단어를 체크하지 않음 "+" Code: 400");
     }
 }
