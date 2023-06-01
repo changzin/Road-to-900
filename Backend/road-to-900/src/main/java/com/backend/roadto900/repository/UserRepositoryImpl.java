@@ -66,11 +66,31 @@ public class UserRepositoryImpl implements UserRepository{
 
     @Override
     public void setDailyNoteNum(int userId, int dailyNoteNum) {
-        System.out.println("UPDATE user SET daily_note_num="+
-                dailyNoteNum+
-                " where user_id=" + userId);
         jdbcTemplate.execute("UPDATE user SET daily_note_num="+
                 dailyNoteNum+
                 " where user_id=" + userId);
+    }
+
+    @Override
+    public int updateUserLevel(int userId, int questions, int answer) {
+        int newLevel;
+
+        double answerRate = (Double.parseDouble(Integer.toString(answer))) / (Double.parseDouble(Integer.toString(questions)));
+        answerRate = Integer.parseInt(Double.toString(answerRate));
+
+        if (answerRate >= 80){
+            newLevel = 2;
+        }
+        else if (answerRate >= 40){
+            newLevel = 1;
+        }
+        else {
+            newLevel = 0;
+        }
+
+        jdbcTemplate.execute("UPDATE user SET level="+
+                newLevel+
+                " where user_id=" + userId);
+        return newLevel;
     }
 }

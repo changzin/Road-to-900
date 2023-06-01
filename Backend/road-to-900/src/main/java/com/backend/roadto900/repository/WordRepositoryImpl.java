@@ -2,6 +2,7 @@ package com.backend.roadto900.repository;
 
 import com.backend.roadto900.dto.WordAddDto;
 import com.backend.roadto900.dto.WordDto;
+import com.backend.roadto900.exception.GeneralException;
 import com.backend.roadto900.req.WordAddDeleteReq;
 import com.backend.roadto900.req.WordAskReq;
 import com.backend.roadto900.req.WordDeleteReq;
@@ -63,9 +64,12 @@ public class WordRepositoryImpl implements WordRepository{
     }
 
     @Override
-    public List<WordDto> deleteWord(WordDeleteReq deleteWordReq) {
-        jdbcTemplate.update("DELETE FROM WORD WHERE word_id= ?", deleteWordReq.getWordId());
-        return findAll();
+    public void deleteWord(int deleteWordId) {
+        int count = jdbcTemplate.queryForObject("SELECT count(*) FROM word WHERE word_Id="+deleteWordId, Integer.class);
+        if (count == 0){
+            throw new GeneralException("삭제할 단어를 찾을 수 없습니다", 404);
+        }
+        jdbcTemplate.update("DELETE FROM WORD WHERE word_id= ?", deleteWordId);
     }
 
     @Override
@@ -88,15 +92,11 @@ public class WordRepositoryImpl implements WordRepository{
     }
 
     @Override
-    public List<WordAddDto> deleteAskWord(WordAddDeleteReq wordAddDeleteReq){
-
-//        * 배열로 들어온 값을 가져와서 for문으로 하고 싶은데 안된다.
-        List<Integer> item = wordAddDeleteReq.getWordAddId();
-
-        for (Integer wordId: item) {
-            System.out.println("wordAddId = " + wordId);
+    public void deleteAskWord(int deleteAskWordId){
+        int count = jdbcTemplate.queryForObject("SELECT count(*) FROM word_add WHERE word_add_Id="+deleteAskWordId, Integer.class);
+        if (count == 0){
+            throw new GeneralException("삭제할 단어 요청을 찾을 수 없습니다", 404);
         }
-//      jdbcTemplate.update("DELETE FROM word_add where id = ?", wordAddDeleteReq.getWordAddId()));
-        return findAskWord();
+        jdbcTemplate.update("DELETE FROM word_add WHERE word_add_id= ?", deleteAskWordId);
     }
 }

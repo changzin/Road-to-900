@@ -53,18 +53,17 @@ public class NoteRepositoryImpl implements  NoteRepository{
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<NoteDto> save(String noteName) {
+    public String save(String noteName) {
         jdbcTemplate.execute("INSERT INTO NOTE(user_id, note_name) VALUES("+
                 nowUser.getUserId() +
                 ",'" + noteName + "')");
-        return findAll();
+        return "개인 단어장 추가가 완료 되었습니다.";
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public List<NoteDto> delete(int noteId) {
+    public void delete(int noteId) {
         jdbcTemplate.execute("DELETE FROM NOTE WHERE note_id="+noteId);
-        return findAll();
     }
 
     @Override

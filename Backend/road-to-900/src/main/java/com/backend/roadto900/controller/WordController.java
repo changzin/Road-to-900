@@ -19,54 +19,46 @@ import java.util.List;
 public class WordController {
     private final WordService wordService;
 
-
-
     @GetMapping("/word/list")
     public ResponseEntity findAll(){
-        List<WordDto> wordDto = wordService.findAll();
-        System.out.println("wordDto = " + wordDto);
-        return ResponseEntity.status(201).body(wordDto);
+        List<WordDto> wordDtoList = wordService.findAll();
+        return ResponseEntity.ok().body(wordDtoList);
     }
 
     @PostMapping ("/word/create")
     public ResponseEntity insertWord(@RequestBody WordInsertReq wordInsertReq){
-        WordDto wordDto = wordService.insertWord(wordInsertReq);
-        System.out.println(wordDto.getSpell());
-        return ResponseEntity.status(HttpStatus.CREATED).body(wordDto);
+        String result = wordService.insertWord(wordInsertReq);
+        return ResponseEntity.status(201).body(result);
     }
 
     @PostMapping("/word/delete")
-    public ResponseEntity deleteWord(@RequestBody WordDeleteReq deleteWordReq){
-        List<WordDto> wordDto = wordService.deleteWord(deleteWordReq);
-        return ResponseEntity.status(201).body(wordDto);
+    public ResponseEntity deleteWord(@RequestBody List<Integer> deleteWordIdList){
+        String result = wordService.deleteWord(deleteWordIdList);
+        return ResponseEntity.status(201).body(result);
     }
 
     @GetMapping ("/word")
     public ResponseEntity searchWord(@RequestParam String spell){
         List<WordDto> wordDto = wordService.searchWord(spell);
-        return ResponseEntity.status(201).body(wordDto);
+        return ResponseEntity.status(201).body(wordDto.get(0));
     }
 
     @PostMapping("/wordAdd")
     public ResponseEntity askWord(@RequestBody WordAskReq wordAskReq){
-        WordDto wordDto = wordService.askWord(wordAskReq);
-        return ResponseEntity.status(201).body(wordDto);
+        String result = wordService.askWord(wordAskReq);
+        return ResponseEntity.status(201).body(result);
     }
 
     @GetMapping("/wordAdd/list")
     public ResponseEntity findAskWord() {
-        List<WordAddDto> wordAddDto = wordService.findAskWord();
-        return ResponseEntity.status(201).body(wordAddDto);
+        List<WordAddDto> wordAddDtoList = wordService.findAskWord();
+        return ResponseEntity.status(201).body(wordAddDtoList);
     }
 
     @PostMapping("/wordAdd/delete")
-    public ResponseEntity deleteAskWord(@RequestBody WordAddDeleteReq wordAddDeleteReq) {
-        List<WordAddDto> wordAddDto = wordService.deleteAskWord(wordAddDeleteReq);
-//        for (WordAddDto wordId: wordAddDto){
-//            System.out.println("wordId = " + wordId.getWordId());
-//        }
-        return ResponseEntity.status(201).body(wordAddDto);
-
+    public ResponseEntity deleteAskWord(@RequestBody List<Integer> deleteAskWordIdList) {
+        String result = wordService.deleteAskWord(deleteAskWordIdList);
+        return ResponseEntity.status(201).body(result);
     }
 
 }

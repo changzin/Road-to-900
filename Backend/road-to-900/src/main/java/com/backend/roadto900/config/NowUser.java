@@ -49,4 +49,8 @@ public class NowUser {
     public void setDailyNoteNum(int dailyNoteNum){
         this.dailyNoteNum = dailyNoteNum;
     }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
 }

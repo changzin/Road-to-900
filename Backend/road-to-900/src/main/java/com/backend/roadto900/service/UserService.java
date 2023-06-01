@@ -99,4 +99,17 @@ public class UserService {
             throw new GeneralException("일치하는 ID를 찾을 수 없습니다.", 404);
         }
     }
+
+    public String updateUserLevel(int questions, int answer) {
+        if (nowUser.getRole() != 0){
+            throw new GeneralException("시험 결과를 반영할 권한이 없습니다.", 403);
+        }
+        existUidCheck(nowUser.getUid());
+        if (questions == 0){
+            throw new GeneralException("전체 문제 수가 0. 잘못된 입력입니다.", 400);
+        }
+        int newLevel = userRepository.updateUserLevel(nowUser.getUserId(), questions, answer);
+        nowUser.setLevel(newLevel);
+        return "유저 레벨 변경 완료 하였습니다.";
+    }
 }

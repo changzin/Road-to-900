@@ -12,4 +12,6 @@ public interface UserRepository {
     int countByUid(String uid);
 
     void setDailyNoteNum(int userId, int dailyNoteNum);
+
+    int updateUserLevel(int userId, int questions, int answer);
 }

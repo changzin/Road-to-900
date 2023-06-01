@@ -7,6 +7,7 @@ import com.backend.roadto900.dto.WordDto;
 import com.backend.roadto900.exception.GeneralException;
 import com.backend.roadto900.repository.NoteRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class NoteService {
         return noteDtoList;
     }
 
-    public List<NoteDto> join(String noteName){
+    public String join(String noteName){
         int count;
 
         if (nowUser.getRole() != 0){
@@ -45,18 +46,21 @@ public class NoteService {
         return noteRepositoryImpl.save(noteName);
     }
 
-    public List<NoteDto> delete(int noteId){
-        int count = noteRepositoryImpl.countByNoteId(noteId);
-        if (count == 0){
-            throw new GeneralException("삭제하려는 개인 단어장을 찾을 수 없습니다.", 404);
-        }
-        else{
-            NoteDto noteDto = noteRepositoryImpl.findByNoteId(noteId);
-            if (noteDto.getUserId() != nowUser.getUserId()){
-                throw new GeneralException("개인 단어장 삭제 권한이 없습니다.", 403);
+    public String delete(List<Integer> noteIdList){
+        for(int noteId : noteIdList){
+            int count = noteRepositoryImpl.countByNoteId(noteId);
+            if (count == 0){
+                throw new GeneralException("삭제하려는 개인 단어장을 찾을 수 없습니다.", 404);
             }
+            else{
+                NoteDto noteDto = noteRepositoryImpl.findByNoteId(noteId);
+                if (noteDto.getUserId() != nowUser.getUserId()){
+                    throw new GeneralException("개인 단어장 삭제 권한이 없습니다.", 403);
+                }
+            }
+            noteRepositoryImpl.delete(noteId);
         }
-        return noteRepositoryImpl.delete(noteId);
+        return "개인 단어장 삭제가 완료 되었습니다.";
     }
 
     public NoteWordDto findNoteWord(int noteId){

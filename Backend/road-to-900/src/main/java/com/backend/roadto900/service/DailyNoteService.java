@@ -29,4 +29,16 @@ public class DailyNoteService {
         }
         return DailyNote;
     }
+
+    public List<WordDto> getFirstTestNote(){
+        if (nowUser.getRole() != 0){
+            throw new GeneralException("평가 테스트 권한이 없습니다.", 403);
+        }
+        dailyNote.updateDailyNote(wordRepository.findAll());
+        List<WordDto> FirstTestNote = dailyNote.getFirstTestNote();
+        if (FirstTestNote == null || FirstTestNote.isEmpty()){
+            throw new GeneralException("오늘의 단어장을 불러올 수 없습니다", 404);
+        }
+        return FirstTestNote;
+    }
 }

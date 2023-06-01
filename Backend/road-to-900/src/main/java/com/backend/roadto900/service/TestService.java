@@ -38,6 +38,15 @@ public class TestService {
         return makeTest(wordDtoList);
     }
 
+    public List<QuestionDto> makeFirstTest(){
+        if (nowUser.getRole() != 0){
+            throw new GeneralException("단어장 테스트 권한이 없습니다", 403);
+        }
+        // 시험 볼 노트의 단어들 가져옴
+        List<WordDto> FirstTestNote = dailyNoteService.getFirstTestNote();
+
+        return makeTest(FirstTestNote);
+    }
 
     private List<QuestionDto> makeTest(List<WordDto> wordDtoList){
         // 보기를 만들기 위해 전체 단어 가져옴

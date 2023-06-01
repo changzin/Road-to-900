@@ -26,15 +26,15 @@ public class NoteController {
     }
 
     @PostMapping("note/delete")
-    public ResponseEntity delete(@RequestParam int noteId){
-        List<NoteDto> noteDtoList = noteService.delete(noteId);
-        return ResponseEntity.ok().body(noteDtoList);
+    public ResponseEntity delete(@RequestBody List<Integer> noteIdList){
+        String result = noteService.delete(noteIdList);
+        return ResponseEntity.ok().body(result);
     }
 
     @PostMapping("note/create")
     public ResponseEntity create(@RequestParam String noteName){
-        List<NoteDto> noteDtoList = noteService.join(noteName);
-        return ResponseEntity.ok().body(noteDtoList);
+        String result = noteService.join(noteName);
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping("note/{noteId}")

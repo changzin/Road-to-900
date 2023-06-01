@@ -10,9 +10,9 @@ import java.util.List;
 public interface NoteRepository {
     List<NoteDto> findAll();
 
-    List<NoteDto> save(String noteName);
+    String save(String noteName);
 
-    List<NoteDto> delete(int noteId);
+    void delete(int noteId);
 
     NoteWordDto findNoteWord(int noteId);
 
