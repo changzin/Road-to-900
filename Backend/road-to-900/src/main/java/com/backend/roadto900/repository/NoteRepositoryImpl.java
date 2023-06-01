@@ -78,12 +78,17 @@ public class NoteRepositoryImpl implements  NoteRepository{
     @Transactional(rollbackFor = Exception.class)
     public String createNoteWord(int noteId, List<Integer> wordIdList) {
         for(int wordId : wordIdList){
+            int count = jdbcTemplate.queryForObject("SELECT count(*) FROM word WHERE word_Id="+wordId, Integer.class);
+            if (count == 0){
+                throw new GeneralException("개인 단어장에 추가할 단어를 찾을 수 없습니다", 404);
+            }
             jdbcTemplate.execute("INSERT INTO note_word(note_id, word_id) VALUES(" + noteId + ", " + wordId + ")");
         }
         return "개인 단어장 단어 추가가 완료 되었습니다.";
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String deleteNoteWord(int noteId, List<Integer> wordIdList) {
         for(int wordId : wordIdList){
             jdbcTemplate.execute("DELETE FROM note_word WHERE note_id=" + noteId + " AND word_id=" + wordId);

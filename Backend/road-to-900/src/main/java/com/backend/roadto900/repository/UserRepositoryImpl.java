@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,7 @@ public class UserRepositoryImpl implements UserRepository{
     };
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public UserDto save(UserDto userDto) {
         jdbcTemplate.execute("INSERT INTO user(uid, user_name, password, role, level, daily_note_num) VALUES('"+
                 userDto.getUid()+
@@ -65,6 +67,7 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void setDailyNoteNum(int userId, int dailyNoteNum) {
         jdbcTemplate.execute("UPDATE user SET daily_note_num="+
                 dailyNoteNum+
@@ -72,16 +75,16 @@ public class UserRepositoryImpl implements UserRepository{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int updateUserLevel(int userId, int questions, int answer) {
         int newLevel;
 
         double answerRate = (Double.parseDouble(Integer.toString(answer))) / (Double.parseDouble(Integer.toString(questions)));
-        answerRate = Integer.parseInt(Double.toString(answerRate));
-
-        if (answerRate >= 80){
+        int Rate = (int)(answerRate * 100);
+        if (Rate >= 80){
             newLevel = 2;
         }
-        else if (answerRate >= 40){
+        else if (Rate >= 40){
             newLevel = 1;
         }
         else {

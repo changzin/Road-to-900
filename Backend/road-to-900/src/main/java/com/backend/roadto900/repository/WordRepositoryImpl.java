@@ -12,6 +12,7 @@ import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -49,6 +50,7 @@ public class WordRepositoryImpl implements WordRepository{
 
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public WordDto insertWord(WordInsertReq wordInsertReq) {
             String sql = "INSERT INTO word (spell, mean) VALUES (?, ?)";
             jdbcTemplate.update(sql, wordInsertReq.getSpell(), wordInsertReq.getMean());
@@ -64,6 +66,7 @@ public class WordRepositoryImpl implements WordRepository{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteWord(int deleteWordId) {
         int count = jdbcTemplate.queryForObject("SELECT count(*) FROM word WHERE word_Id="+deleteWordId, Integer.class);
         if (count == 0){
@@ -79,6 +82,7 @@ public class WordRepositoryImpl implements WordRepository{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public WordDto askWord(WordAskReq wordAskReq) {
         jdbcTemplate.update("INSERT INTO word_add (word_add_spell) VALUES (?)",wordAskReq.getSpell());
         return null;
@@ -92,6 +96,7 @@ public class WordRepositoryImpl implements WordRepository{
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteAskWord(int deleteAskWordId){
         int count = jdbcTemplate.queryForObject("SELECT count(*) FROM word_add WHERE word_add_Id="+deleteAskWordId, Integer.class);
         if (count == 0){
